@@ -9,6 +9,7 @@ var context;
 var snakeX=blockSize*5;
 var snakeY=blockSize*5;
 
+var counter=0;
 //food
 var foodX;
 var foodY;
@@ -32,9 +33,6 @@ window.onload=function(){
 function update() {
     if(gameOver){
       location.reload();
-      
-      
-
     }
     context.fillStyle="black" //to fill the color of the canvas
     context.fillRect(0,0,board.width,board.height);
@@ -46,7 +44,8 @@ function update() {
     if(snakeX==foodX&&snakeY==foodY){
         snakeBody.push([foodX,foodY]); //add coordinates to array
         placeFood(); //if the snake touches the food the food will be placed in another location
-        document.querySelector('.score').innerText += 1;
+        counter++; //Everytime you colide with the food the counter adds a 1 this will be displayed to the user
+        document.querySelector('.score').innerText = counter;
     }
 
     for (let i = snakeBody.length-1; i>0; i--) {//move parts with the body
@@ -69,7 +68,8 @@ if(snakeBody.length){
     //game over conditions
     if(snakeX<0 || snakeX>cols*blockSize||snakeY<0||snakeY>rows*blockSize){
         gameOver=true;
-        alert("Game over");
+        alert("Game over your score was "+counter);
+        counter=0;
     }
     //loop over the body parts to check for a collision
     for(let i=0;i<snakeBody.length;i++){
