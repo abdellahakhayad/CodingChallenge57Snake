@@ -9,6 +9,9 @@ var context;
 var snakeX=blockSize*5;
 var snakeY=blockSize*5;
 
+
+var gameOverAlertShown = false; // flag to track if the game over alert has been shown
+
 var counter=0;
 //food
 var foodX;
@@ -31,6 +34,8 @@ window.onload=function(){
    setInterval(update,1000/10);//it runs 10 times a second
 }
 function update() {
+
+   
     if(gameOver){
       location.reload();
     }
@@ -50,34 +55,41 @@ function update() {
 
     for (let i = snakeBody.length-1; i>0; i--) {//move parts with the body
        snakeBody[i]=snakeBody[i-1];//to get the previous x&y coordinates 
-        
     }
-if(snakeBody.length){
-    snakeBody[0]=[snakeX,snakeY];
-}
-
-    //To create the snake in our canvas
-    context.fillStyle="lime"; //give the snake a color
-    snakeX+=velocityX*blockSize; //to speedup the snake X 
-    snakeY+=velocityY*blockSize; //to speedup the snake Y
-    context.fillRect(snakeX,snakeY,blockSize,blockSize); 
-    for(let i =0;i<snakeBody.length;i++){
-        context.fillRect(snakeBody[i][0],snakeBody[i][1],blockSize,blockSize);//to let the snake grow but the green points are remaining in the rect 
+    if(snakeBody.length){
+        snakeBody[0]=[snakeX,snakeY];
     }
 
-    //game over conditions
-    if(snakeX<0 || snakeX>cols*blockSize||snakeY<0||snakeY>rows*blockSize){
-        gameOver=true;
-        alert("Game over your score was "+counter);
-        counter=0;
-    }
-    //loop over the body parts to check for a collision
-    for(let i=0;i<snakeBody.length;i++){
-        if(snakeX==snakeBody[i][0]&&snakeY==snakeBody[i][1]){
-            gameOver=true;
-            alert("Game over");
+        //To create the snake in our canvas
+        context.fillStyle="lime"; //give the snake a color
+        snakeX+=velocityX*blockSize; //to speedup the snake X 
+        snakeY+=velocityY*blockSize; //to speedup the snake Y
+        context.fillRect(snakeX,snakeY,blockSize,blockSize); 
+        for(let i =0;i<snakeBody.length;i++){
+            context.fillRect(snakeBody[i][0],snakeBody[i][1],blockSize,blockSize);//to let the snake grow but the green points are remaining in the rect 
         }
-    }
+
+        //game over conditions
+        if(snakeX<0 || snakeX>cols*blockSize||snakeY<0||snakeY>rows*blockSize){
+            gameOver=true;
+            if(gameOver && !gameOverAlertShown){
+                gameOverAlertShown = true; // set the flag to true
+                alert("Game over your score was " + counter);
+            }
+            counter=0;
+        }
+        //loop over the body parts to check for a collision
+        for(let i=0;i<snakeBody.length;i++){
+            if(snakeX==snakeBody[i][0]&&snakeY==snakeBody[i][1]){
+                gameOver=true;
+                if(gameOver && !gameOverAlertShown){
+                    gameOverAlertShown = true; // set the flag to true
+                    alert("Game over your score was" + counter);
+                }
+                counter=0;
+
+            }
+        }
 }
 //this is to change the direction of the snake && it is not permitted to go the opposite way so if you go right you cannot go left
 function changeDirection(e) {
