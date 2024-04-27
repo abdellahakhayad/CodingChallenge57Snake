@@ -21,9 +21,19 @@ var velocityX=0;
 var velocityY=0;
 
 var snakeBody=[] //this will store the X,Y coordinates in an array
-
+// Set the time to wait before hiding the preloader and showing the game board (in milliseconds)
+const preloadTime = 5000; // 5 seconds
 var gameOver=false;
 window.onload=function(){
+
+    setTimeout(function () {
+    //to load gif of snake loader
+  //  document.getElementsByClassName('loader ').style.display = 'none';
+    document.getElementById('preloader').style.display = 'none';
+    //to load game 
+    document.getElementById('board').style.display = 'block'; 
+    }, preloadTime);
+
     board=document.getElementById("board");
     board.height=rows*blockSize; //draw the rows
     board.width=cols*blockSize; //draw the columns
