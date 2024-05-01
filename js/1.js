@@ -28,9 +28,11 @@ window.onload=function(){
 
     setTimeout(function () {
     //to load gif of snake loader
-  //  document.getElementsByClassName('loader ').style.display = 'none';
+   // document.getElementById('loader').style.display = 'none';
+    //document.getElementsByClassName('loader').style.display = 'none';
     document.getElementById('preloader').style.display = 'none';
     //to load game 
+    //document.getElementsByClassName('snakeGame').style.display = 'block';
     document.getElementById('board').style.display = 'block'; 
     }, preloadTime);
 
